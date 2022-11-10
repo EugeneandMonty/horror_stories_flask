@@ -1,5 +1,7 @@
 from mongoengine import *
 from datetime import datetime
+from flask import jsonify
+
 
 class Authors(Document):
     email = EmailField(max_length=50, required=True, unique=True)
@@ -29,4 +31,31 @@ class Stories(Document):
     likes = IntField()
     date_created = StringField(default=datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
 
+def long_for_loop_json(self):
+    list = []
+    for each in self:
+        dict = {
+        'title': each.title,
+        'story': each.story,
+        'story_image': each.story_image,
+        'tags': each.tags,
+        'short_description': each.short_description,
+        'author': each.author,
+        'likes': each.likes
+        }
+        list.append(dict)
+    return jsonify(list)
+
+def short_for_loop_json(self):
+    list = []
+    for each in self:
+        dict = {
+        'title': each.title,
+        'story_image': each.story_image,
+        'short_description': each.short_description,
+        'author': each.author,
+        'likes': each.likes
+        }
+        list.append(dict)
+    return jsonify(list)
 
